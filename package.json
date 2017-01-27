@@ -1,0 +1,26 @@
+{
+  "name": "learnhapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhangzju/learnHapi.git"
+  },
+  "keywords": [
+    "hapi",
+    "zhangzju"
+  ],
+  "author": "zhangzju",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhangzju/learnHapi/issues"
+  },
+  "homepage": "https://github.com/zhangzju/learnHapi#readme",
+  "dependencies": {
+    "hapi": "^16.1.0"
+  }
+}

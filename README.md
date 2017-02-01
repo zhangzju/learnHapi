@@ -32,13 +32,15 @@ server.start((err) => {
 });
 ```
 
-First, we require hapi. Then we create a new hapi server object. After that we add a connection to the server, passing in a port number to listen on. After that, start the server and log that it's running.
+首先, 引入依赖. 然后我们创建了一个 hapi server 对象. 然后我们为这个server对象添加一个连接, 传入一个端口给这个连接，使之监听请求. 然后，开启这个server，就可以看到console中的log信息了.
 
-When adding the server connection, we can also provide a hostname, IP address, or even a Unix socket file, or Windows named pipe to bind the server to. For more details, see the API reference.
+当我们给server添加连接的时候, 我们也可以传入一个 主机名, IP 地址, 或者 Unix socket 文件,  Windows 具名管道来让我们的server去绑定. 具体的用法需要查看API.
 
-Adding routes
+### 添加路由
 
-Now that we have a server we should add one or two routes so that it actually does something. Let's see what that looks like:
+现在我们需要添加一些路由来实现一些简单的逻辑. 下面的代码就是简单的路由:
+
+```javascript
 
 'use strict';
 
@@ -70,7 +72,9 @@ server.start((err) => {
     }
     console.log(`Server running at: ${server.info.uri}`);
 });
-Save the above as server.js and start the server with the command node server.js. Now you'll find that if you visit http://localhost:3000 in your browser, you'll see the text Hello, world!, and if you visit http://localhost:3000/stimpy you'll see Hello, stimpy!.
+
+```
+将上面的代码保存为 server.js 然后使用 __node server.js__ 来开启这个server. Now you'll find that if you visit http://localhost:3000 in your browser, you'll see the text Hello, world!, and if you visit http://localhost:3000/stimpy you'll see Hello, stimpy!.
 
 Note that we URI encode the name parameter, this is to prevent content injection attacks. Remember, it's never a good idea to render user provided data without output encoding it first!
 

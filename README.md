@@ -74,19 +74,21 @@ server.start((err) => {
 });
 
 ```
-将上面的代码保存为 server.js 然后使用 __node server.js__ 来开启这个server. Now you'll find that if you visit http://localhost:3000 in your browser, you'll see the text Hello, world!, and if you visit http://localhost:3000/stimpy you'll see Hello, stimpy!.
+将上面的代码保存为 server.js 然后使用 __node server.js__ 来开启这个server. 现在你可以访问 http://localhost:3000/stimpy 然后可以发现 Hello, stimpy!.
 
-Note that we URI encode the name parameter, this is to prevent content injection attacks. Remember, it's never a good idea to render user provided data without output encoding it first!
+注意，在这里我们 URI 编码了用户传递过来的参数, 这是为了防止注入攻击. 任何时候都不要信任用户传递过来的任何字符串，不要运行他们，记住要先格式化!
 
-The method parameter can be any valid HTTP method, array of HTTP methods, or an asterisk to allow any method. The path parameter defines the path including parameters. It can contain optional parameters, numbered parameters, and even wildcards. For more details, see the routing tutorial.
+关于method这个参数，可以是任何合理的HTTP请求方式，也可以是一个数组，也可以用*来表示任意的方式. path这个属性定义了匹配参数的规则. 规定的参数可以包括字符串，数字以及通配符. 需要更多这方面的消息，可以查看文档的路由那一章节.
 
-Creating static pages and content
+### 提供静态网页服务
 
-We've proven that we can start a simple Hapi app with our Hello World application. Next, we'll use a plugin called inert to serve a static page. Before you begin, stop the server with CTRL + C.
+现在我们已经可以实现一个简单的Heelo World服务器了，但是这还不够. 接下来, 我们将要使用inert来进行一个静态的网页服务搭建. 在这之前，使用 CTRL + C 来关闭我们的服务器，**这里可以参见我的另一片博客，使用nodemon，webpack-dev-server以及pm2来实现热重启**.
 
-To install inert run this command at the command line: npm install --save inert This will download inert and add it to your package.json, which documents which packages are installed.
+首先还是安装这个插件: **npm install --save inert ** 这个命令会下载 inert 并且将其添加到 package.json, 成为一个配置中的依赖.
 
-Add the following to your server.js file:
+将下面这段代码添加到 server.js:
+
+```javascript
 
 server.register(require('inert'), (err) => {
 
@@ -103,9 +105,10 @@ server.register(require('inert'), (err) => {
     });
 });
 
-The server.register() command above adds the inert plugin to your Hapi application. If something goes wrong, we want to know, so we've passed in an anonymous function which if invoked will receive err and throw that error. This callback function is required when registering plugins.
+```
+上面的 server.register() 将 inert 插件添加到了 Hapi 应用中. 在这方法中还传入了一个匿名函数，这是为了处理党我们的插件没能正确的加载到应用中的情况，这时候我们会抛出这个错误。每当我们需要向应用中添加插件的时候，我们就需要传入回调函数来处理异常，__至于为什么要采用这种方式而不是和Java一样采用try-catch的方式，这是因为，jacvascript本身就是异步的.__
 
-The server.route() command registers the /hello route, which tells your server to accept GET requests to /hello and reply with the contents of the hello.html file. We've put the routing callback function inside of registering inert because we need to insure that inert is registered before we use it to render the static page. It is generally wise to run code that depends on a plugin within the callback that registers that plugin so that you can be absolutely sure that plugin exists when your code runs.
+ server.route() 注册了 /hello 这个路由, 当我们的应用接收到了GET方式请求的 /hello 路由时就会返回 hello.html 这个文件. We've put the routing callback function inside of registering inert because we need to insure that inert is registered before we use it to render the static page. It is generally wise to run code that depends on a plugin within the callback that registers that plugin so that you can be absolutely sure that plugin exists when your code runs.
 
 Start up your server with npm start and go to http://localhost:3000/hello in your browser. Oh no! We're getting a 404 error because we never created a hello.html file. You need to create the missing file to get rid of this error.
 

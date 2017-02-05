@@ -106,13 +106,18 @@ server.register(require('inert'), (err) => {
 });
 
 ```
-上面的 server.register() 将 inert 插件添加到了 Hapi 应用中. 在这方法中还传入了一个匿名函数，这是为了处理党我们的插件没能正确的加载到应用中的情况，这时候我们会抛出这个错误。每当我们需要向应用中添加插件的时候，我们就需要传入回调函数来处理异常，__至于为什么要采用这种方式而不是和Java一样采用try-catch的方式，这是因为，jacvascript本身就是异步的.__
+上面的 server.register() 将 inert 插件添加到了 Hapi 应用中. 在这方法中还传入了一个匿名函数，这是为了处理当我们的插件没能正确的加载到应用中的情况，这时候我们会抛出这个错误。每当我们需要向应用中添加插件的时候，我们就需要传入回调函数来处理异常，__至于为什么要采用这种方式而不是和Java一样采用try-catch的方式，这是因为，jacvascript本身就是异步的.__
 
- server.route() 注册了 /hello 这个路由, 当我们的应用接收到了GET方式请求的 /hello 路由时就会返回 hello.html 这个文件. We've put the routing callback function inside of registering inert because we need to insure that inert is registered before we use it to render the static page. It is generally wise to run code that depends on a plugin within the callback that registers that plugin so that you can be absolutely sure that plugin exists when your code runs.
+ server.route() 注册了 /hello 这个路由, 当我们的应用接收到了GET方式请求的 /hello 路由时就会返回 hello.html 这个文件. 我们把路由的回调响应函数放在注册inert插件的函数块内部， 这是为了确保在我们的路由响应函数作出响应之前，我们的插件inert确保呗注册到了整个应用之中. 这种方式在像这样的经常需要插件来辅助的应用中时非常明智的，可以规避许多依赖相关的问题.
 
-Start up your server with npm start and go to http://localhost:3000/hello in your browser. Oh no! We're getting a 404 error because we never created a hello.html file. You need to create the missing file to get rid of this error.
+使用  __npm start__ 开启应用并且在浏览器中访问访问 http://localhost:3000/hello . 出错了，我们发现 404 错误出现在浏览器中，因为现在为止我们还根本没有创建 hello.html 这个文件啊. 现在我们创建这个文件来解决这个错误.
 
-Create a folder called public at the root of your directory with a file called hello.html within it. Inside hello.html put the following HTML: <h2>Hello World.</h2>. Then reload the page in your browser. You should see a header reading "Hello World."
+创建public文件夹 并且创建hello.html，注意路径之间的相对关系. 在hello.html写上以下的简单内容: 
+```html
+<h2>Hello World.</h2>
+```
+
+在浏览器中刷新这个页面. 现在应该能看到 "Hello World."出现在页面之中了。
 
 Inert will serve whatever content is saved to your hard drive when the request is made, which is what leads to this live reloading behavior. Customize the page at /hello to your liking.
 

@@ -119,21 +119,22 @@ server.register(require('inert'), (err) => {
 
 在浏览器中刷新这个页面. 现在应该能看到 "Hello World."出现在页面之中了。
 
-Inert will serve whatever content is saved to your hard drive when the request is made, which is what leads to this live reloading behavior. Customize the page at /hello to your liking.
+当一个请求发送到inert之后，inert会返回这个请求所指向的文件, 这也就是的静态服务实际上变的可以热重启，因为inert不会缓存文件，他总是返回最新的文件. 现在你可以在 /hello 这个路由中试着改改你的文件来体验一下.
 
-More details on how static content is served are detailed on Serving Static Content. This technique is commonly used to serve images, stylesheets, and static pages in your web application.
+更多关于静态文件服务的信息在文档的先关章节.这个技术用于在你的应用中为图片，静态文件以及静态页面提供支持.
 
-Using plugins
+## 使用插件
 
-A common desire when creating any web application, is an access log. To add some basic logging to our application, let's load the good plugin and its good-console reporter on to our server. We'll also need a basic filtering mechanism. Let's use good-squeeze because it has the basic event type and tag filtering we need to get started.
+在我们开发一个web应用的时候，一个基本的需求就是能够有一个可以轻松获取到的日志信息系统. 为了在我们的应用中添加一些基本的日志功能, 我们现在在应用中添加一个good-console插件来实现这个需求. 我们同时也需要一些过滤机制. 我们使用 good-squeeze 插件来实现这个功能.
 
-Let's install the modules from npm to get started:
-
+首先还是安装这些插件以及他们的依赖:
+```shell
 npm install --save good
 npm install --save good-console
 npm install --save good-squeeze
-Then update your server.js:
-
+```
+根据下面的代码来更新一下你的server.js:
+```javascript
 'use strict';
 
 const Hapi = require('hapi');
@@ -188,14 +189,17 @@ server.register({
         server.log('info', 'Server running at: ' + server.info.uri);
     });
 });
-Now when the server is started you'll see:
-
+```
+重新启动这个应用，你会发现:
+```shell
 140625/143008.751, [log,info], data: Server running at: http://localhost:3000
-And if we visit http://localhost:3000/ in the browser, you'll see:
-
+```
+如果你访问 http://localhost:3000/  ,你会看见:
+```shell
 140625/143205.774, [response], http://localhost:3000: get / {} 200 (10ms)
-Great! This is just one short example of what plugins are capable of, for more information check out the plugins tutorial.
+```
+很好，以上是一个非常简短的使用第三方插件的例子，更多的信息在文档的相关部分.
 
-Everything else
+## 关于其他
 
-hapi has many, many other capabilities and only a select few are documented in tutorials here. Please use the list to your right to check them out. Everything else is documented in the API reference and, as always, feel free to ask question or just visit us on freenode in #hapi.
+这个框架很不错，恩，有问题就去github或者freenode上提issue就好 #hapi.

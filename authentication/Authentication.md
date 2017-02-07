@@ -1,13 +1,14 @@
-Authentication
+## 认证
 
-This tutorial is compatible with hapi v11.x.x.
+这个教程适用于 hapi v11.x.x.
 
-Authentication within hapi is based on the concept of schemes and strategies.
+hapi内置的认证系统是基于 schemes 和 strategies的.
 
-Think of a scheme as a general type of auth, like "basic" or "digest". A strategy on the other hand, is a pre-configured and named instance of a scheme.
+scheme就是认证中的一种通用的结构或者抽象, 就像是 "basic"（基础结构） 或者 "digest"（抽象结构）. 
+strategy是从另一个方面来考虑的, 一种提前配置好的，具名的scheme.
 
-First, let's look at an example of how to use hapi-auth-basic:
-
+首先，查看下面这个例子来了解如何使用api-auth-basic:
+```javascript
 'use strict';
 
 const Bcrypt = require('bcrypt');
@@ -64,6 +65,7 @@ server.register(Basic, (err) => {
         console.log('server running at: ' + server.info.uri);
     });
 });
+```
 First, we define our users database, which is a simple object in this example. Then we define a validation function, which is a feature specific to hapi-auth-basic and allows us to verify that the user has provided valid credentials.
 
 Next, we register the plugin, which creates a scheme with the name of basic. This is done within the plugin via server.auth.scheme().

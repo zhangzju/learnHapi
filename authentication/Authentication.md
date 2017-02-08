@@ -88,7 +88,7 @@ authenticate 是形如 **function (request, reply)** 的方法, 在scheme中是�
 
 reply 是标准的hapi响应接口, 他按照顺序接受err和result parameters.
 
-If err is a non-null value, this indicates a failure in authentication and the error will be used as a reply to the end user. It is advisable to use boom to create this error to make it simple to provide the appropriate status code and message.
+如果err 不为null, 这意味着在authentication的过程中出现了错误， 这个错误会被当做正常的reply传递给最后的用户. It is advisable to use boom to create this error to make it simple to provide the appropriate status code and message.
 
 The result parameter should be an object, though the object itself as well as all of its keys are optional if an err is provided.
 

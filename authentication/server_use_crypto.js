@@ -8,7 +8,7 @@ const server = new Hapi.Server();
 server.connection({port: 3006});
 
 const users= {
-    john: {
+    zhang: {
         username: 'zhang',
         password: 'secret', //secret
         name: 'zhang',
@@ -22,19 +22,12 @@ const validate = function (request, username, password, callback) {
         return callback(null, false);
     }
 
-    // Bcrypt.compare(password, user.password, (err, isValid)=> {
-    //     callback(err, isValid, {id: user.id, name: user.name});
-    // });
-    console.log("in process!\n");
-    console.log(user.password+" | "+password);
 
-    // if (password === user.password) {
-    //     let err=null;
-    //     let isValid=true;
-    //     callback(err, isValid, {id: user.id, name: user.name});
-    // }
-
-    callback(null, true, {id: user.id, name: user.name});
+    if (password === user.password) {
+        let err=null;
+        let isValid=true;
+        callback(err, isValid, {id: user.id, name: user.name});
+    }
 };
 
 server.register(Basic, (err) => {

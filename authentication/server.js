@@ -18,5 +18,39 @@ const users= {
 
 const validate = function (request, username, password, callback) {
     const user = user[username];
-    
-}
+    if(!user) {
+        return callback(null, false);
+    }
+
+    Bcrypt.compare(password, user.password, (err, isValid)=> {
+        callback(err, isValid, {id: user,id, name: user.name});
+    });
+};
+
+server.register(Basic, (err) => {
+
+    if (err) {
+        throw err;
+    }
+
+    server.auth.strategy('simple', 'basic', {validateFunc: validate});
+    server.route({
+        method: 'GET',
+        path: '/',
+        config: {
+            auth: 'simple',
+            handler: function (request, reply) {
+                reply('hello, '+ request.auth.credentials.name);
+            }
+        }
+    });
+
+    server.start((err) => {
+
+        if(err) {
+            throw err;
+        }
+
+        console.log('server running at: '+ server.info.uri);
+    });
+});

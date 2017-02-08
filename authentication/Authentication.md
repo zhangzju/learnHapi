@@ -7,7 +7,7 @@ hapi内置的认证系统是基于 schemes 和 strategies的.
 scheme就是认证中的一种通用的结构或者抽象, 就像是 "basic"（基础结构） 或者 "digest"（抽象结构）. 
 strategy是从另一个方面来考虑的, 一种提前配置好的，具名的scheme.
 
-首先，查看下面这个例子来了解如何使用api-auth-basic:
+首先，查看下面这个例子来了解如何使用hapi-auth-basic:
 ```javascript
 'use strict';
 
@@ -66,15 +66,15 @@ server.register(Basic, (err) => {
     });
 });
 ```
-首先, 我们定义一个用户数据, 在这里是一个简单的对象. 然后我们定义一个验证函数, which is a feature specific to hapi-auth-basic and allows us to verify that the user has provided valid credentials.
+首先, 我们定义一个用户数据, 在这里是一个简单的对象. 然后我们定义一个验证函数, 即 __validate__ , 这个函数配置了 hapi-auth-basic 同时允许我们去验证用户是否具有合法的凭据.
 
-Next, we register the plugin, which creates a scheme with the name of basic. This is done within the plugin via server.auth.scheme().
+然后, 把插件注册到应用中,插件中有一个名为 basic的scheme. 这个scheme是在 server.auth.scheme()中定义的.
 
-Once the plugin has been registered, we use server.auth.strategy() to create a strategy with the name of simple that refers to our scheme named basic. We also pass an options object that gets passed to the scheme and allows us to configure its behavior.
+当插件被注册到应用中的时候, 我们使用 server.auth.strategy()来创建一个名为 simple 的strategy，这个strategy对应了前面提到的内置的 basic的schme. 我们把配置作为一个对象传入给 scheme 并且允许插件来控制应用的行为.
 
-The last thing we do is tell a route to use the strategy named simple for authentication.
+最后我们在路由中告诉需要经过auth的路由，我们使用 simple 这个strategy来对这个路由进行 authentication.
 
-Schemes
+## Schemes
 
 A scheme is a method with the signature function (server, options). The server parameter is a reference to the server the scheme is being added to, while the options parameter is the configuration object provided when registering a strategy that uses this scheme.
 

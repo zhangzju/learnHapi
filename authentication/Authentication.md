@@ -66,7 +66,7 @@ server.register(Basic, (err) => {
     });
 });
 ```
-First, we define our users database, which is a simple object in this example. Then we define a validation function, which is a feature specific to hapi-auth-basic and allows us to verify that the user has provided valid credentials.
+首先, 我们定义一个用户数据, 在这里是一个简单的对象. 然后我们定义一个验证函数, which is a feature specific to hapi-auth-basic and allows us to verify that the user has provided valid credentials.
 
 Next, we register the plugin, which creates a scheme with the name of basic. This is done within the plugin via server.auth.scheme().
 

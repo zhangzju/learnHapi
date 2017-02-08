@@ -76,17 +76,17 @@ server.register(Basic, (err) => {
 
 ## Schemes
 
-A scheme is a method with the signature function (server, options). The server parameter is a reference to the server the scheme is being added to, while the options parameter is the configuration object provided when registering a strategy that uses this scheme.
+scheme 是一种类似 **function (server, options)**的方法 ，他需要包含两个参数 __server, options__. server 参数是scheme所添加到的应用, options是使用这个scheme注册一个strategy时的配置。 
 
-This method must return an object with at least the key authenticate. Other optional methods that can be used are payload and response.
+这个方法(scheme)至少需要能够返回一个对象，这个对象必须包含 __authenticate__ 这个属性. 此外还可以有 __payload__ 和 __response__.
 
-authenticate
+## authenticate
 
-The authenticate method has a signature of function (request, reply), and is the only required method in a scheme.
+authenticate 是形如 **function (request, reply)** 的方法, 在scheme中是唯一必须包含的方法.
 
-In this context, request is the request object created by the server. It is the same object that becomes available in a route handler, and is documented in the API reference.
+在请求上下文中, request 是应用生成的request对象. 和route的handler方法中的request对象一致, 可以在文档中查看具体的属性.
 
-reply is the standard hapi reply interface, it accepts err and result parameters in that order.
+reply 是标准的hapi响应接口, 他按照顺序接受err和result parameters.
 
 If err is a non-null value, this indicates a failure in authentication and the error will be used as a reply to the end user. It is advisable to use boom to create this error to make it simple to provide the appropriate status code and message.
 

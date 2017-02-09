@@ -88,9 +88,9 @@ authenticate 是形如 **function (request, reply)** 的方法, 在scheme中是�
 
 reply 是标准的hapi响应接口, 他按照顺序接受err和result parameters.
 
-如果err 不为null, 这意味着在authentication的过程中出现了错误， 这个错误会被当做正常的reply传递给最后的用户. It is advisable to use boom to create this error to make it simple to provide the appropriate status code and message.
+如果err 不为null, 这意味着在authentication的过程中出现了错误， 这个错误会被当做正常的reply传递给最后的用户. 合理的做法应当是使用一个boom对象来控制错误处理，同时也能够更加方便的向用户提供合适的返回码.
 
-The result parameter should be an object, though the object itself as well as all of its keys are optional if an err is provided.
+result parameter应当是一个对象, 不过如果err不为null的话，这个对象以及他的属性都是可选的.
 
 If you would like to provide more detail in the case of a failure, the result object must have a credentials property which is an object representing the authenticated user (or the credentials the user attempted to authenticate with) and should be called like reply(error, null, result);.
 

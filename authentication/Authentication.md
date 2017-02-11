@@ -76,7 +76,7 @@ server.register(Basic, (err) => {
 
 ## Schemes
 
-scheme 是一种类似 **function (server, options)**的方法 ，他需要包含两个参数 __server, options__. server 参数是scheme所添加到的应用, options是使用这个scheme注册一个strategy时的配置。 
+scheme 是一种类似 **function (server, options)** 的方法 ，他需要包含两个参数 __server, options__. server 参数是scheme所添加到的应用, options是使用这个scheme注册一个strategy时的配置。 
 
 这个方法(scheme)至少需要能够返回一个对象，这个对象必须包含 __authenticate__ 这个属性. 此外还可以有 __payload__ 和 __response__.
 
@@ -88,19 +88,19 @@ authenticate 是形如 **function (request, reply)** 的方法, 在scheme中是�
 
 reply 是标准的hapi响应接口, 他按照顺序接受err和result parameters.
 
-如果err 不为null, 这意味着在authentication的过程中出现了错误， 这个错误会被当做正常的reply传递给最后的用户. 合理的做法应当是使用一个boom对象来控制错误处理，同时也能够更加方便的向用户提供合适的返回码.
+1. 如果err 不为null, 这意味着在authentication的过程中出现了错误， 这个错误会被当做正常的reply传递给最后的用户. 合理的做法应当是使用一个boom对象来控制错误处理，同时也能够更加方便的向用户提供合适的返回码.
 
 result parameter应当是一个对象, 不过如果err不为null的话，这个对象以及他的属性都是可选的.
 
-If you would like to provide more detail in the case of a failure, the result object must have a credentials property which is an object representing the authenticated user (or the credentials the user attempted to authenticate with) and should be called like reply(error, null, result);.
+如果你想在failure中提供更多关于如何失败的信息，那么就提供一个对象来代替原本正确返回是的credential对象, the result对象必须提供一个替代authenticated用户的对象 (或者说用户需要验证的那个用户的凭据对象) ，形式是这样 **reply(error, null, result)** ;.
 
-When authentication is successful, you must call reply.continue(result) where result is an object with a credentials property.
+2. 如果验证成功了, 需要调用 reply.continue(result) 方法， result 是包含了验证通过的用户的信息的一个对象，在上面带代码中就是 { id: user.id, name: user.name }.
 
-Additionally, you may also have an artifacts key, which can contain any authentication related data that is not part of the user's credentials.
+此外, 你也可以添加一个 artifacts key, 这个键对应的值提供了一些和用户相关的但是并不在用户验证凭据中的信息.
 
-The credentials and artifacts properties can be accessed later (in a route handler, for example) as part of the request.auth object.
+credentials 和 artifacts 属性随后可以在 (例如随后的一个路由处理函数) request.auth 对象中直接获取.
 
-payload
+## payload
 
 The payload method has the signature function (request, reply).
 
@@ -108,7 +108,7 @@ Again, the standard hapi reply interface is available here. To signal a failure 
 
 To signal a successful authentication, call reply.continue() with no parameters.
 
-response
+## response
 
 The response method also has the signature function (request, reply) and utilizes the standard reply interface.
 
@@ -118,11 +118,11 @@ Once any decoration is complete, you must call reply.continue(), and the respons
 
 If an error occurs, you should instead call reply(error) where error is recommended to be a boom.
 
-Registration
+## Registration
 
 To register a scheme, use either server.auth.scheme(name, scheme). The name parameter is a string used to identify this specific scheme, the scheme parameter is a method as described above.
 
-Strategies
+## Strategies
 
 Once you've registered your scheme, you need a way to use it. This is where strategies come in.
 
@@ -132,7 +132,7 @@ To register a strategy, we must first have a scheme registered. Once that's comp
 
 The name parameter must be a string, and will be used later to identify this specific strategy. scheme is also a string, and is the name of the scheme this strategy is to be an instance of.
 
-Mode
+## Mode
 
 mode is the first optional parameter, and may be either true, false, 'required', 'optional', or 'try'.
 
@@ -144,7 +144,7 @@ If mode is set to 'optional' the strategy will still be applied to all routes la
 
 The last mode setting is 'try' which, again, applies to all routes lacking an auth config. The difference between 'try' and 'optional' is that with 'try' invalid authentication is accepted, and the user will still reach the route handler.
 
-Options
+## Options
 
 The final optional parameter is options, which will be passed directly to the named scheme.
 
@@ -156,7 +156,7 @@ This method accepts one parameter, which may be either a string with the name of
 
 Note that any routes added before server.auth.default() is called will not have the default applied to them. If you need to make sure that all routes have the default strategy applied, you must either call server.auth.default() before adding any of your routes, or set the default mode when registering the strategy.
 
-Route configuration
+## Route configuration
 
 Authentication can also be configured on a route, by the config.auth parameter. If set to false, authentication is disabled for the route.
 
